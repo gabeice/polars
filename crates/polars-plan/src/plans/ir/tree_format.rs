@@ -57,6 +57,7 @@ impl fmt::Display for TreeFmtAExpr<'_> {
                 write!(f, "{}", sort_options.multithreaded as u8)?;
                 return Ok(());
             },
+            AExpr::TopK { .. } => "top_k",
             AExpr::Filter { .. } => "filter",
             AExpr::Agg(a) => {
                 let s: &str = a.into();
