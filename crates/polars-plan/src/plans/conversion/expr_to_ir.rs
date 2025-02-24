@@ -192,6 +192,15 @@ pub(super) fn to_aexpr_impl(
                 .collect::<PolarsResult<_>>()?,
             sort_options,
         },
+        Expr::TopK {
+            expr,
+            k,
+            descending,
+        } => AExpr::TopK {
+            expr: to_aexpr_impl(owned(expr), arena, state)?,
+            k,
+            descending,
+        },
         Expr::Filter { input, by } => AExpr::Filter {
             input: to_aexpr_impl(owned(input), arena, state)?,
             by: to_aexpr_impl(owned(by), arena, state)?,

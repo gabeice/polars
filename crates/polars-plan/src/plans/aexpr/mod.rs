@@ -170,6 +170,11 @@ pub enum AExpr {
         by: Vec<Node>,
         sort_options: SortMultipleOptions,
     },
+    TopK {
+        expr: Node,
+        k: usize,
+        descending: bool,
+    },
     Filter {
         input: Node,
         by: Node,

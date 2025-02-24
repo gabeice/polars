@@ -15,6 +15,7 @@ mod slice;
 mod sort;
 mod sortby;
 mod ternary;
+mod topk;
 mod window;
 
 use std::borrow::Cow;
@@ -41,6 +42,7 @@ pub(crate) use slice::*;
 pub(crate) use sort::*;
 pub(crate) use sortby::*;
 pub(crate) use ternary::*;
+pub(crate) use topk::*;
 pub use window::window_function_format_order_by;
 pub(crate) use window::*;
 

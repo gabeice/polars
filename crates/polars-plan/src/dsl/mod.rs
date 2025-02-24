@@ -531,8 +531,12 @@ impl Expr {
     ///
     /// This has time complexity `O(n + k log(n))`.
     #[cfg(feature = "top_k")]
-    pub fn bottom_k(self, k: Expr) -> Self {
-        self.apply_many_private(FunctionExpr::TopK { descending: true }, &[k], false, false)
+    pub fn bottom_k(self, k: usize) -> Self {
+        Expr::TopK {
+            expr: Arc::new(self),
+            k,
+            descending: true,
+        }
     }
 
     /// Returns the `k` smallest rows by given column.

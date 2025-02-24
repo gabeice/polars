@@ -70,6 +70,18 @@ pub fn node_to_expr(node: Node, expr_arena: &Arena<AExpr>) -> Expr {
                 sort_options,
             }
         },
+        AExpr::TopK {
+            expr,
+            k,
+            descending,
+        } => {
+            let expr = node_to_expr(expr, expr_arena);
+            Expr::TopK {
+                expr: Arc::new(expr),
+                k,
+                descending,
+            }
+        },
         AExpr::Filter { input, by } => {
             let input = node_to_expr(input, expr_arena);
             let by = node_to_expr(by, expr_arena);

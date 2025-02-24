@@ -294,8 +294,8 @@ impl PyExpr {
     }
 
     #[cfg(feature = "top_k")]
-    fn bottom_k(&self, k: Self) -> Self {
-        self.inner.clone().bottom_k(k.inner).into()
+    fn bottom_k(&self, k: usize) -> Self {
+        self.inner.clone().bottom_k(k).into()
     }
 
     #[cfg(feature = "top_k")]

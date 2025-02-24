@@ -202,6 +202,7 @@ impl AExpr {
                 Ok(field)
             },
             Sort { expr, .. } => ctx.arena.get(*expr).to_field_impl(ctx, agg_list),
+            TopK { expr, .. } => ctx.arena.get(*expr).to_field_impl(ctx, agg_list),
             Gather {
                 expr,
                 idx,
