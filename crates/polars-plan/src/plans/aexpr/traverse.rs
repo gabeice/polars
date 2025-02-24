@@ -24,6 +24,9 @@ impl AExpr {
                 container.extend(by.iter().cloned().rev());
                 container.extend([*expr]);
             },
+            TopK { expr, .. } => {
+                container.extend([*expr]);
+            },
             Filter { input, by } => {
                 container.extend([*by, *input]);
             },
@@ -89,6 +92,7 @@ impl AExpr {
                 by.extend_from_slice(&inputs[1..]);
                 return self;
             },
+            TopK { expr, .. } => expr,
             Filter { input, by, .. } => {
                 *input = inputs[0];
                 *by = inputs[1];

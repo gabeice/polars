@@ -351,6 +351,19 @@ fn create_physical_expr_inner(
                 sort_options.clone(),
             )))
         },
+        TopK {
+            expr,
+            k,
+            descending,
+        } => {
+            let phys_expr = create_physical_expr_inner(*expr, ctxt, expr_arena, schema, state)?;
+            Ok(Arc::new(TopKExpr {
+                phys_expr,
+                k: *k,
+                descending: *descending,
+                expr: node_to_expr(expression, expr_arena),
+            }))
+        },
         Filter { input, by } => {
             let phys_input = create_physical_expr_inner(*input, ctxt, expr_arena, schema, state)?;
             let phys_by = create_physical_expr_inner(*by, ctxt, expr_arena, schema, state)?;

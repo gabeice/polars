@@ -39,6 +39,9 @@ macro_rules! push_expr {
                 // latest, so that it is popped first
                 $push($c, expr);
             },
+            TopK { expr, .. } => {
+                $push($c, expr);
+            },
             Agg(agg_e) => {
                 use AggExpr::*;
                 match agg_e {
