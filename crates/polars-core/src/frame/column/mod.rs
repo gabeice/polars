@@ -1245,6 +1245,11 @@ impl Column {
             .map(Self::from)
     }
 
+    pub fn kth_element(&self, k: usize) -> PolarsResult<Self> {
+        // @scalar-opt
+        self.as_materialized_series().kth_element(k).map(Self::from)
+    }
+
     pub fn filter(&self, filter: &BooleanChunked) -> PolarsResult<Self> {
         match self {
             Column::Series(s) => s.filter(filter).map(Column::from),

@@ -760,6 +760,25 @@ where
                 .trust_my_length(self.len())
         }
     }
+
+    pub fn kth_element(&self, k: usize) -> PolarsResult<Self> {
+        polars_ensure!(
+            k < self.len() - self.null_count(),
+            ComputeError: "fewer than k valid elements in this series"
+        );
+
+        // Get rid of all the nulls and transform into Vec<T::Native>.
+        let mut nnca = self.drop_nulls();
+        nnca.rechunk_mut();
+        let chunk = nnca.downcast_into_iter().next().unwrap();
+        let (_, buffer, _) = chunk.into_inner();
+        let mut vec = buffer.make_mut();
+
+        let (_, result, _) = vec.select_nth_unstable_by(k, TotalOrd::tot_cmp);
+
+        let arr = PrimitiveArray::from_vec(vec![*result]);
+        Ok(ChunkedArray::with_chunk_like(self, arr))
+    }
 }
 
 impl<T: PolarsDataType> Clone for ChunkedArray<T> {

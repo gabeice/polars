@@ -20,6 +20,9 @@ impl AExpr {
             Gather { expr, idx, .. } => {
                 container.extend([*idx, *expr]);
             },
+            KthElement { expr, k } => {
+                container.extend([*k, *expr]);
+            },
             SortBy { expr, by, .. } => {
                 container.extend(by.iter().cloned().rev());
                 container.extend([*expr]);
@@ -80,6 +83,11 @@ impl AExpr {
             Gather { expr, idx, .. } => {
                 *expr = inputs[0];
                 *idx = inputs[1];
+                return self;
+            },
+            KthElement { expr, k } => {
+                *expr = inputs[0];
+                *k = inputs[1];
                 return self;
             },
             Sort { expr, .. } => expr,

@@ -2626,6 +2626,35 @@ class Expr:
         index_lit = parse_into_expression(index)
         return self._from_pyexpr(self._pyexpr.get(index_lit))
 
+    def kth_element(self, k: int | Expr) -> Expr:
+        """
+        Return the element that would be at position k were the column sorted.
+
+        Returns
+        -------
+        Expr
+            Expression of data type :class:`UInt32`.
+
+        See Also
+        --------
+        count
+
+        Examples
+        --------
+        >>> df = pl.DataFrame({"a": [7, 1, 7, 7, 1, 5, 7, 2, 3, 2, 6, 2, 3, 0]})
+        >>> df.select(pl.all().kth_element(4))
+        shape: (1, 2)
+        ┌─────┐
+        │ a   │
+        │ --- │
+        │ u32 │
+        ╞═════╡
+        │ 2   │
+        └─────┘
+        """
+        k_lit = parse_into_expression(k)
+        return self._from_pyexpr(self._pyexpr.kth_element(k_lit))
+
     def shift(
         self, n: int | IntoExprColumn = 1, *, fill_value: IntoExpr | None = None
     ) -> Expr:

@@ -343,6 +343,10 @@ impl PyExpr {
         self.inner.clone().get(idx.inner).into()
     }
 
+    fn kth_element(&self, k: Self) -> Self {
+        self.inner.clone().kth_element(k.inner).into()
+    }
+
     fn sort_by(
         &self,
         by: Vec<Self>,

@@ -8,6 +8,7 @@ mod count;
 mod filter;
 mod gather;
 mod group_iter;
+mod kthelement;
 mod literal;
 #[cfg(feature = "dynamic_group_by")]
 mod rolling;
@@ -31,6 +32,7 @@ pub(crate) use column::*;
 pub(crate) use count::*;
 pub(crate) use filter::*;
 pub(crate) use gather::*;
+pub(crate) use kthelement::*;
 pub(crate) use literal::*;
 use polars_core::prelude::*;
 use polars_io::predicates::PhysicalIoExpr;

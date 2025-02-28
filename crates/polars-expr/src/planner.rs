@@ -333,6 +333,15 @@ fn create_physical_expr_inner(
                 returns_scalar: *returns_scalar,
             }))
         },
+        KthElement { expr, k } => {
+            let phys_expr = create_physical_expr_inner(*expr, ctxt, expr_arena, schema, state)?;
+            let phys_k = create_physical_expr_inner(*k, ctxt, expr_arena, schema, state)?;
+            Ok(Arc::new(KthElementExpr {
+                phys_expr,
+                k: phys_k,
+                expr: node_to_expr(expression, expr_arena),
+            }))
+        },
         SortBy {
             expr,
             by,

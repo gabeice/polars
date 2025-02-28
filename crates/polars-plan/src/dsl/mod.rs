@@ -468,6 +468,14 @@ impl Expr {
         }
     }
 
+    /// Take the values by a single index.
+    pub fn kth_element<E: Into<Expr>>(self, k: E) -> Self {
+        Expr::KthElement {
+            expr: Arc::new(self),
+            k: Arc::new(k.into()),
+        }
+    }
+
     /// Sort with given options.
     ///
     /// # Example

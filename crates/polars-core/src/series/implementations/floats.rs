@@ -220,6 +220,10 @@ macro_rules! impl_dyn_series {
                 self.0.var(ddof)
             }
 
+            fn kth_element(&self, k: usize) -> PolarsResult<Series> {
+                Ok(self.0.kth_element(k)?.into_series())
+            }
+
             fn take(&self, indices: &IdxCa) -> PolarsResult<Series> {
                 Ok(self.0.take(indices)?.into_series())
             }

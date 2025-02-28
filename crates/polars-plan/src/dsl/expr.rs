@@ -98,6 +98,10 @@ pub enum Expr {
         idx: Arc<Expr>,
         returns_scalar: bool,
     },
+    KthElement {
+        expr: Arc<Expr>,
+        k: Arc<Expr>,
+    },
     SortBy {
         expr: Arc<Expr>,
         by: Vec<Expr>,
@@ -281,6 +285,10 @@ impl Hash for Expr {
                 expr.hash(state);
                 idx.hash(state);
                 returns_scalar.hash(state);
+            },
+            Expr::KthElement { expr, k } => {
+                expr.hash(state);
+                k.hash(state);
             },
             // already hashed by discriminant
             Expr::Wildcard | Expr::Len => {},

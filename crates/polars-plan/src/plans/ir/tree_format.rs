@@ -46,6 +46,7 @@ impl fmt::Display for TreeFmtAExpr<'_> {
                 )
             },
             AExpr::Gather { .. } => "gather",
+            AExpr::KthElement { .. } => "kth_element",
             AExpr::SortBy { sort_options, .. } => {
                 write!(f, "sort_by:")?;
                 for i in &sort_options.descending {

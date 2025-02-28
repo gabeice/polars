@@ -121,7 +121,8 @@ fn try_lower_elementwise_scalar_agg_expr(
         | AExpr::Window { .. }
         | AExpr::Sort { .. }
         | AExpr::SortBy { .. }
-        | AExpr::Gather { .. } => None,
+        | AExpr::Gather { .. }
+        | AExpr::KthElement { .. } => None,
 
         // Explode and filter are row-separable and should thus in theory work
         // in a streaming fashion but they change the length of the input which
