@@ -311,6 +311,14 @@ pub struct Gather {
 }
 
 #[pyclass]
+pub struct KthElement {
+    #[pyo3(get)]
+    expr: usize,
+    #[pyo3(get)]
+    k: usize,
+}
+
+#[pyclass]
 pub struct Filter {
     #[pyo3(get)]
     input: usize,
@@ -669,6 +677,11 @@ pub(crate) fn into_py(py: Python<'_>, expr: &AExpr) -> PyResult<PyObject> {
             expr: expr.0,
             idx: idx.0,
             scalar: *returns_scalar,
+        }
+        .into_py_any(py),
+        AExpr::KthElement { expr, k } => KthElement {
+            expr: expr.0,
+            k: k.0,
         }
         .into_py_any(py),
         AExpr::Filter { input, by } => Filter {

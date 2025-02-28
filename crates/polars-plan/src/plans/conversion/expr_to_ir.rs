@@ -176,6 +176,10 @@ pub(super) fn to_aexpr_impl(
             idx: to_aexpr_impl_materialized_lit(owned(idx), arena, state)?,
             returns_scalar,
         },
+        Expr::KthElement { expr, k } => AExpr::KthElement {
+            expr: to_aexpr_impl(owned(expr), arena, state)?,
+            k: to_aexpr_impl_materialized_lit(owned(k), arena, state)?,
+        },
         Expr::Sort { expr, options } => AExpr::Sort {
             expr: to_aexpr_impl(owned(expr), arena, state)?,
             options,

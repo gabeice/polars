@@ -165,6 +165,10 @@ pub enum AExpr {
         idx: Node,
         returns_scalar: bool,
     },
+    KthElement {
+        expr: Node,
+        k: Node,
+    },
     SortBy {
         expr: Node,
         by: Vec<Node>,

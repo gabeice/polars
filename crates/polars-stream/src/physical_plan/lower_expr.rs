@@ -127,6 +127,10 @@ pub fn is_input_independent_rec(
             is_input_independent_rec(*expr, arena, cache)
                 && is_input_independent_rec(*idx, arena, cache)
         },
+        AExpr::KthElement { expr, k } => {
+            is_input_independent_rec(*expr, arena, cache)
+                && is_input_independent_rec(*k, arena, cache)
+        },
         AExpr::SortBy {
             expr,
             by,
@@ -243,6 +247,7 @@ pub fn is_length_preserving_rec(
 
     let ret = match arena.get(expr_key) {
         AExpr::Gather { .. }
+        | AExpr::KthElement { .. }
         | AExpr::Explode(_)
         | AExpr::Filter { .. }
         | AExpr::Agg(_)
@@ -705,6 +710,11 @@ fn lower_exprs_with_ctx(
             | AExpr::Slice { .. }
             | AExpr::Window { .. }
             | AExpr::Gather { .. } => {
+                let out_name = unique_column_name();
+                fallback_subset.push(ExprIR::new(expr, OutputName::Alias(out_name.clone())));
+                transformed_exprs.push(ctx.expr_arena.add(AExpr::Column(out_name)));
+            },
+            AExpr::KthElement { .. } => {
                 let out_name = unique_column_name();
                 fallback_subset.push(ExprIR::new(expr, OutputName::Alias(out_name.clone())));
                 transformed_exprs.push(ctx.expr_arena.add(AExpr::Column(out_name)));

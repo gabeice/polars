@@ -27,6 +27,10 @@ macro_rules! push_expr {
                 $push($c, idx);
                 $push($c, expr);
             },
+            KthElement { expr, k } => {
+                $push($c, k);
+                $push($c, expr);
+            },
             Filter { input, by } => {
                 $push($c, by);
                 // latest, so that it is popped first

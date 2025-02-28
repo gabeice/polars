@@ -82,6 +82,9 @@ impl fmt::Debug for Expr {
                     write!(f, "{expr:?}.gather({idx:?})")
                 }
             },
+            KthElement { expr, k } => {
+                write!(f, "{expr:?}.kth_element({k:?})")
+            },
             SubPlan(lf, _) => {
                 write!(f, ".subplan({lf:?})")
             },

@@ -56,6 +56,7 @@ impl TreeWalker for Expr {
             Cast { expr, dtype, options: strict } => Cast { expr: am(expr, f)?, dtype, options: strict },
             Sort { expr, options } => Sort { expr: am(expr, f)?, options },
             Gather { expr, idx, returns_scalar } => Gather { expr: am(expr, &mut f)?, idx: am(idx, f)?, returns_scalar },
+            KthElement { expr, k } => KthElement { expr: am(expr, &mut f)?, k: am(k, f)? },
             SortBy { expr, by, sort_options } => SortBy { expr: am(expr, &mut f)?, by: by.into_iter().map(f).collect::<Result<_, _>>()?, sort_options },
             Agg(agg_expr) => Agg(match agg_expr {
                 Min { input, propagate_nans } => Min { input: am(input, f)?, propagate_nans },

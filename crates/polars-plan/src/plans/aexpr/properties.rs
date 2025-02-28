@@ -41,6 +41,7 @@ impl AExpr {
             | Explode(_)
             | Filter { .. }
             | Gather { .. }
+            | KthElement { .. }
             | Len
             | Slice { .. }
             | Sort { .. }

@@ -216,6 +216,13 @@ impl AExpr {
                 }
                 ctx.arena.get(*expr).to_field_impl(ctx, &mut false)
             },
+            KthElement { expr, k } => {
+                *agg_list = false;
+                if ctx.validate {
+                    validate_expr(*k, ctx.arena, ctx.schema)?
+                }
+                ctx.arena.get(*expr).to_field_impl(ctx, &mut false)
+            },
             SortBy { expr, .. } => ctx.arena.get(*expr).to_field_impl(ctx, agg_list),
             Filter { input, by } => {
                 if ctx.validate {

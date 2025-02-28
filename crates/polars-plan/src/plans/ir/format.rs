@@ -593,6 +593,12 @@ impl Display for ExprIRDisplay<'_> {
                     write!(f, ".gather({idx})")
                 }
             },
+            KthElement { expr, k } => {
+                let expr = self.with_root(expr);
+                let k = self.with_root(k);
+                expr.fmt(f)?;
+                write!(f, ".kth_element({k})")
+            },
             Agg(agg) => {
                 use IRAggExpr::*;
                 match agg {

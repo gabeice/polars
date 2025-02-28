@@ -54,6 +54,14 @@ pub fn node_to_expr(node: Node, expr_arena: &Arena<AExpr>) -> Expr {
                 returns_scalar,
             }
         },
+        AExpr::KthElement { expr, k } => {
+            let expr = node_to_expr(expr, expr_arena);
+            let k = node_to_expr(k, expr_arena);
+            Expr::KthElement {
+                expr: Arc::new(expr),
+                k: Arc::new(k),
+            }
+        },
         AExpr::SortBy {
             expr,
             by,
