@@ -25,11 +25,24 @@ impl PhysicalExpr for KthElementExpr {
 
     fn evaluate_on_groups<'a>(
         &self,
-        _df: &DataFrame,
-        _groups: &'a GroupPositions,
-        _state: &ExecutionState,
+        df: &DataFrame,
+        groups: &'a GroupPositions,
+        state: &ExecutionState,
     ) -> PolarsResult<AggregationContext<'a>> {
-        polars_bail!(InvalidOperation: "not implemented yet");
+        let mut ac = self.phys_expr.evaluate_on_groups(df, groups, state)?;
+        let k = self.k.evaluate(df, state)?;
+        let k = extract_k(k, &self.expr)?;
+        match ac.agg_state() {
+            AggState::AggregatedList(s) => {
+                let out = s.kth_element(k)?;
+                ac.with_values(out.into_column(), true, Some(&self.expr))?;
+            },
+            _ => {
+                polars_bail!(InvalidOperation: "not implemented");
+            },
+        }
+
+        Ok(ac)
     }
 
     fn to_field(&self, input_schema: &Schema) -> PolarsResult<Field> {
