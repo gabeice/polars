@@ -302,16 +302,6 @@ pub struct Sort {
 }
 
 #[pyclass]
-pub struct TopK {
-    #[pyo3(get)]
-    expr: usize,
-    #[pyo3(get)]
-    k: usize,
-    #[pyo3(get)]
-    descending: bool,
-}
-
-#[pyclass]
 pub struct Gather {
     #[pyo3(get)]
     expr: usize,
@@ -598,16 +588,6 @@ pub(crate) fn into_py(py: Python<'_>, expr: &AExpr) -> PyResult<PyObject> {
                 options.nulls_last,
                 options.descending,
             ),
-        }
-        .into_py_any(py),
-        AExpr::TopK {
-            expr,
-            k,
-            descending,
-        } => TopK {
-            expr: expr.0,
-            k: *k,
-            descending: *descending,
         }
         .into_py_any(py),
         AExpr::Gather {
@@ -1177,7 +1157,7 @@ pub(crate) fn into_py(py: Python<'_>, expr: &AExpr) -> PyResult<PyObject> {
                 },
                 FunctionExpr::AsStruct => ("as_struct",).into_py_any(py),
                 #[cfg(feature = "top_k")]
-                FunctionExpr::TopK { descending } => ("top_k", descending).into_py_any(py),
+                FunctionExpr::TopK { k, descending } => ("top_k", k, descending).into_py_any(py),
                 FunctionExpr::CumCount { reverse } => ("cum_count", reverse).into_py_any(py),
                 FunctionExpr::CumSum { reverse } => ("cum_sum", reverse).into_py_any(py),
                 FunctionExpr::CumProd { reverse } => ("cum_prod", reverse).into_py_any(py),

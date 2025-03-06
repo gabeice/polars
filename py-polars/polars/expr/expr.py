@@ -2082,6 +2082,7 @@ class Expr:
         │ 99    ┆ 4        │
         └───────┴──────────┘
         """
+        k = parse_into_expression(k)
         return self._from_pyexpr(self._pyexpr.bottom_k(k))
 
     @deprecate_renamed_parameter("descending", "reverse", version="1.0.0")

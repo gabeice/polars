@@ -71,6 +71,7 @@ mod strings;
 mod struct_;
 #[cfg(feature = "temporal")]
 mod temporal;
+mod top_k;
 #[cfg(feature = "trigonometry")]
 pub mod trigonometry;
 mod unique;
@@ -204,6 +205,7 @@ pub enum FunctionExpr {
     AsStruct,
     #[cfg(feature = "top_k")]
     TopK {
+        k: usize,
         descending: bool,
     },
     #[cfg(feature = "top_k")]
@@ -483,7 +485,10 @@ impl Hash for FunctionExpr {
                 has_max.hash(state);
             },
             #[cfg(feature = "top_k")]
-            TopK { descending } => descending.hash(state),
+            TopK { k, descending } => {
+                k.hash(state);
+                descending.hash(state);
+            },
             #[cfg(feature = "cum_agg")]
             CumCount { reverse } => reverse.hash(state),
             #[cfg(feature = "cum_agg")]
@@ -686,7 +691,7 @@ impl Display for FunctionExpr {
             #[cfg(feature = "dtype-struct")]
             AsStruct => "as_struct",
             #[cfg(feature = "top_k")]
-            TopK { descending } => {
+            TopK { descending, .. } => {
                 if *descending {
                     "bottom_k"
                 } else {
@@ -1044,8 +1049,8 @@ impl From<FunctionExpr> for SpecialEq<Arc<dyn ColumnsUdf>> {
                 map_as_slice!(coerce::as_struct)
             },
             #[cfg(feature = "top_k")]
-            TopK { descending } => {
-                map_as_slice!(top_k, descending)
+            TopK { k, descending } => {
+                map!(top_k::top_k, k, descending)
             },
             #[cfg(feature = "top_k")]
             TopKBy { descending } => map_as_slice!(top_k_by, descending.clone()),

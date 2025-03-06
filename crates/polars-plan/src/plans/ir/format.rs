@@ -580,14 +580,6 @@ impl Display for ExprIRDisplay<'_> {
                 let by = self.with_slice(by);
                 write!(f, "{expr}.sort_by(by={by}, sort_option={sort_options:?})",)
             },
-            TopK {
-                expr,
-                k,
-                descending,
-            } => {
-                let expr = self.with_root(expr);
-                write!(f, "{expr}.top_k({k}, descending={descending:?})")
-            },
             Filter { input, by } => {
                 let input = self.with_root(input);
                 let by = self.with_root(by);

@@ -103,11 +103,6 @@ pub enum Expr {
         by: Vec<Expr>,
         sort_options: SortMultipleOptions,
     },
-    TopK {
-        expr: Arc<Expr>,
-        k: usize,
-        descending: bool,
-    },
     Agg(AggExpr),
     /// A ternary operation
     /// if true then "foo" else "bar"
@@ -254,15 +249,6 @@ impl Hash for Expr {
             Expr::Sort { expr, options } => {
                 expr.hash(state);
                 options.hash(state);
-            },
-            Expr::TopK {
-                expr,
-                k,
-                descending,
-            } => {
-                expr.hash(state);
-                k.hash(state);
-                descending.hash(state);
             },
             Expr::Alias(input, name) => {
                 input.hash(state);
