@@ -283,8 +283,8 @@ impl PyExpr {
     }
 
     #[cfg(feature = "top_k")]
-    fn top_k(&self, k: usize) -> Self {
-        self.inner.clone().top_k(k).into()
+    fn top_k(&self, k: Self) -> Self {
+        self.inner.clone().top_k(k.inner).into()
     }
 
     #[cfg(feature = "top_k")]
@@ -294,8 +294,8 @@ impl PyExpr {
     }
 
     #[cfg(feature = "top_k")]
-    fn bottom_k(&self, k: usize) -> Self {
-        self.inner.clone().bottom_k(k).into()
+    fn bottom_k(&self, k: Self) -> Self {
+        self.inner.clone().bottom_k(k.inner).into()
     }
 
     #[cfg(feature = "top_k")]
