@@ -1228,7 +1228,7 @@ pub(crate) fn into_py(py: Python<'_>, expr: &AExpr) -> PyResult<PyObject> {
                 },
                 FunctionExpr::AsStruct => ("as_struct",).into_py_any(py),
                 #[cfg(feature = "top_k")]
-                FunctionExpr::TopK { k, descending } => ("top_k", k, descending).into_py_any(py),
+                FunctionExpr::TopK { descending } => ("top_k", descending).into_py_any(py),
                 FunctionExpr::CumCount { reverse } => ("cum_count", reverse).into_py_any(py),
                 FunctionExpr::CumSum { reverse } => ("cum_sum", reverse).into_py_any(py),
                 FunctionExpr::CumProd { reverse } => ("cum_prod", reverse).into_py_any(py),

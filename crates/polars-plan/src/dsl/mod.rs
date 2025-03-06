@@ -508,11 +508,8 @@ impl Expr {
     ///
     /// This has time complexity `O(n + k log(n))`.
     #[cfg(feature = "top_k")]
-    pub fn top_k(self, k: usize) -> Self {
-        self.apply_private(FunctionExpr::TopK {
-            k,
-            descending: false,
-        })
+    pub fn top_k(self, k: Expr) -> Self {
+        self.apply_many_private(FunctionExpr::TopK { descending: false }, &[k], false, false)
     }
 
     /// Returns the `k` largest rows by given column.
@@ -534,11 +531,8 @@ impl Expr {
     ///
     /// This has time complexity `O(n + k log(n))`.
     #[cfg(feature = "top_k")]
-    pub fn bottom_k(self, k: usize) -> Self {
-        self.apply_private(FunctionExpr::TopK {
-            k,
-            descending: true,
-        })
+    pub fn bottom_k(self, k: Expr) -> Self {
+        self.apply_many_private(FunctionExpr::TopK { descending: true }, &[k], false, false)
     }
 
     /// Returns the `k` smallest rows by given column.
