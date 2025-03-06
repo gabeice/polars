@@ -389,7 +389,6 @@ fn aexpr_to_skip_batch_predicate_rec(
         AExpr::Sort { .. } => None,
         AExpr::Gather { .. } => None,
         AExpr::SortBy { .. } => None,
-        AExpr::TopK { .. } => None,
         AExpr::Filter { .. } => None,
         AExpr::Agg(..) => None,
         AExpr::Ternary { .. } => None,

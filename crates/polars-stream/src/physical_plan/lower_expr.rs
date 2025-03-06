@@ -112,11 +112,6 @@ pub fn is_input_independent_rec(
         | AExpr::Sort {
             expr: inner,
             options: _,
-        }
-        | AExpr::TopK {
-            expr: inner,
-            k: _,
-            descending: _,
         } => is_input_independent_rec(*inner, arena, cache),
         AExpr::Column(_) => false,
         AExpr::Literal(_) => true,
@@ -250,7 +245,6 @@ pub fn is_length_preserving_rec(
         AExpr::Gather { .. }
         | AExpr::Explode(_)
         | AExpr::Filter { .. }
-        | AExpr::TopK { .. }
         | AExpr::Agg(_)
         | AExpr::Slice { .. }
         | AExpr::Len
@@ -709,7 +703,6 @@ fn lower_exprs_with_ctx(
             AExpr::AnonymousFunction { .. }
             | AExpr::Function { .. }
             | AExpr::Slice { .. }
-            | AExpr::TopK { .. }
             | AExpr::Window { .. }
             | AExpr::Gather { .. } => {
                 let out_name = unique_column_name();
