@@ -71,13 +71,6 @@ impl fmt::Debug for Expr {
                     "{expr:?}.sort_by(by={by:?}, sort_option={sort_options:?})",
                 )
             },
-            TopK {
-                expr,
-                k,
-                descending,
-            } => {
-                write!(f, "{expr:?}.top_k({k:?}, descending={descending:?})")
-            },
             Filter { input, by } => {
                 write!(f, "{input:?}.filter({by:?})")
             },

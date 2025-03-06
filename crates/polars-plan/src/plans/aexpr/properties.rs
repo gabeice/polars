@@ -33,7 +33,6 @@ impl AExpr {
             | Slice { .. }
             | Sort { .. }
             | SortBy { .. }
-            | TopK { .. }
             | Window { .. } => false,
         }
     }
